@@ -1,3 +1,4 @@
+using System;
 using SampleShooting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,16 +9,21 @@ namespace Scenes.SampleShooting
     {
         private SampleShooterControls _shooterControls;
         private ObjectPool.ObjectPool _objectPool;
-        [SerializeField] private GameObject bullet;
-        [SerializeField] private uint bulletLimit = 20;
+        private uint _bulletLimit;
+
         private void Awake()
         {
             _shooterControls = new SampleShooterControls();
             _shooterControls.Shooting.SetCallbacks(this);
-            _objectPool = new ObjectPool.ObjectPool(bulletLimit, bullet, transform);
         }
 
-        private void OnEnable() => _shooterControls.Shooting.Enable();
+        private void OnEnable()
+        {
+            _objectPool = BulletManager.Instance.PlayerBulletPool;
+            _bulletLimit = BulletManager.Instance.bulletLimit;
+            
+            _shooterControls.Shooting.Enable();
+        }
         private void OnDisable() => _shooterControls.Shooting.Disable();
     
         [SerializeField, Tooltip("1秒あたりの速度減衰率")] private float attenuationRate = 0.1f;
@@ -45,10 +51,11 @@ namespace Scenes.SampleShooting
             var buttonPush = context.ReadValue<float>();
             // 入力が弱い場合(触っていない時など)は動作させない
             if (buttonPush < 0.01) return;
-            if (bulletLimit <= _objectPool.CountActiveObject()) return;
+            if (_bulletLimit <= _objectPool.CountActiveObject()) return;
 
-            _objectPool.Rent();
-            // throw new NotImplementedException();
+            var bullet = _objectPool.Rent();
+            bullet.transform.localPosition = Vector3.zero;
+            bullet.transform.localRotation = Quaternion.identity;
         }
     
         #endregion

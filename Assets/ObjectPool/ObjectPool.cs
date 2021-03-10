@@ -47,7 +47,6 @@ namespace ObjectPool
                 // _objectPool内の非アクティブなGameObjectを調べてキャッシュ用配列を作成する
                 _nonactiveObjectCaches = _objectPool.Where(pooledObject => !pooledObject.activeInHierarchy).ToList();
         
-                Debug.Log(_nonactiveObjectCaches.Count);
                 // 非アクティブなGameObjectの数が0だった時
                 if (_nonactiveObjectCaches.Count == 0)
                 {

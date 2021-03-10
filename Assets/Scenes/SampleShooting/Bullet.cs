@@ -8,6 +8,13 @@ namespace Scenes.SampleShooting
         [SerializeField] private float lifeTime = 10;
 
         private float _totalTime;
+        private BulletManager _manager;
+
+        private void Awake()
+        {
+            _manager = BulletManager.Instance;
+        }
+
         private void OnEnable()
         {
             _totalTime = 0;
