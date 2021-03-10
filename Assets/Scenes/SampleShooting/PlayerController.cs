@@ -20,7 +20,7 @@ namespace Scenes.SampleShooting
         private void OnEnable()
         {
             _objectPool = BulletManager.Instance.PlayerBulletPool;
-            _bulletLimit = BulletManager.Instance.bulletLimit;
+            _bulletLimit = BulletManager.Instance.BulletLimit;
             
             _shooterControls.Shooting.Enable();
         }
@@ -54,8 +54,9 @@ namespace Scenes.SampleShooting
             if (_bulletLimit <= _objectPool.CountActiveObject()) return;
 
             var bullet = _objectPool.Rent();
-            bullet.transform.localPosition = Vector3.zero;
-            bullet.transform.localRotation = Quaternion.identity;
+            var thisTransform = transform;
+            bullet.transform.position = thisTransform.position;
+            bullet.transform.rotation = thisTransform.rotation;
         }
     
         #endregion
