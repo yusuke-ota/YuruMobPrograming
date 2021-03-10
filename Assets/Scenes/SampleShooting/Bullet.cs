@@ -23,6 +23,11 @@ namespace Scenes.SampleShooting
         private void Update()
         {
             _totalTime += Time.deltaTime;
+            if (lifeTime <= _totalTime)
+            {
+                _manager.PlayerBulletPool.Return(gameObject);
+                return;
+            }
 
             transform.localPosition += transform.localRotation * Vector3.up * speed;
         }
