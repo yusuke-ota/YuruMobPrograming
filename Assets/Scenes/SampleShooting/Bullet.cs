@@ -29,7 +29,7 @@ namespace Scenes.SampleShooting
                 return;
             }
 
-            transform.localPosition += transform.localRotation * Vector3.up * speed;
+            transform.localPosition += transform.localRotation * Vector3.forward * (speed * Time.deltaTime);
         }
     }
 }

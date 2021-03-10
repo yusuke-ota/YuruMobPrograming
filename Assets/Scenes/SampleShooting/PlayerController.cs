@@ -26,24 +26,16 @@ namespace Scenes.SampleShooting
         }
         private void OnDisable() => _shooterControls.Shooting.Disable();
     
-        [SerializeField, Tooltip("1秒あたりの速度減衰率")] private float attenuationRate = 0.1f;
-        private void Update()
-        {
-            _velocity *= 1.0f - attenuationRate * Time.deltaTime;
-            transform.localPosition += _velocity * Time.deltaTime;
-        }
-
         #region IShootingActions実装部分
 
         [SerializeField, Tooltip("速度の係数")] private float speedCoefficient = 0.2f;
-        private Vector3 _velocity = Vector3.zero;
         public void OnMove(InputAction.CallbackContext context)
         {
             var inputAxis = context.ReadValue<Vector2>();
             // 入力が弱い場合(触っていない時など)は動作させない
             if (inputAxis.sqrMagnitude < 0.01) return;
         
-            _velocity += new Vector3(inputAxis.x, inputAxis.y) * speedCoefficient;
+            transform.localPosition += new Vector3(inputAxis.x, 0, inputAxis.y) * speedCoefficient;
         }
 
         public void OnShoot(InputAction.CallbackContext context)
