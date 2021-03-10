@@ -12,20 +12,20 @@ G(ガーベッジ)C(コレクション)
 ...というより、標準搭載していない言語が少ない。  
 C, C++, Fortran, Rust ...あと何があるっけ?
 
-### C#におけるGC
+## C#におけるGC
 
 GC.Alloc: メモリを確保する  
 GC.Collect: 確保したメモリを開放する
 
 固定長配列(`T[]`,`string`)や可変配列(`List<T>`)、クラスを使うときにメモリを確保する。
 
-### C#アプリケーションのメモリ構成
+## C#アプリケーションのメモリ構成
 
 スタック領域(固定長データの領域)とヒープ領域(可変長データの領域)に分けられる。
 
 todo: 図示
 
-### UnityにおけるGC
+## UnityにおけるGC
 
 C#のGCが動いている
 
@@ -100,46 +100,4 @@ URL: <https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/inside-a-
 +       timerText.Append("秒が経ちました。");
 +
 +       timerTextUI.text = timerText.ToString(); // .ToString(): 3
-```
-
-### よくない例2
-
-```C#
-public class CheckRun: MonoBehaviour{
-    private void Update() {
-        // Debug.Log()はとても重いので、使い終わったらできるだけ削除する。
-        // スマートフォンアプリケーション等で、1フレームに2桁回呼ぶと処理落ちの要因になる。
-        Debug.Log("動いている確認。今はもう必要ないけど...");
-    }
-}
-```
-
-### よくない例2 改善例
-
-1. 使い終わったDebug.Log()を消す
-2. ラッピングする
-
-#### 使い終わったDebug.Log()を消す
-
-```Diff
--       Debug.Log("動いている確認。今はもう必要ないけど...");
-```
-
-#### ラッピングする
-
-```C#
-namespace  MyUtility{
-    static class PrintDebugger{
-        public static void Log(object message){
-#if DebugMode
-            Debug.Log(message);
-#endif
-        }
-    }
-}
-```
-
-```diff
--       Debug.Log("動いている確認。今はもう必要ないけど...");
-+       MyUtility.PrintDebugger.Log("動いている確認。今はもう必要ないけど...");
 ```

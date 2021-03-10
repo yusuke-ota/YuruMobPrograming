@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Document.GCCollect
+namespace Document.DebugLog
 {
-    public class CheckRun: MonoBehaviour{
+    public class DebugLog: MonoBehaviour{
         private void Update() {
             // Debug.Log()はとても重いので、使い終わったらできるだけ削除する。
             // スマートフォンアプリケーション等で、1フレームに2桁回呼ぶと処理落ちの要因になる。
@@ -13,10 +13,12 @@ namespace Document.GCCollect
         }
     }
 
-    // ラッピングする
+    // // ラッピングする
     // namespace  MyUtility{
     //     static class PrintDebugger{
     //         public static void Log(object message){
+    // // UnityEditor PlayerSettings -> Player -> スクリプトコンパイル -> スクリプティング定義シンボルに
+    // // DebugModeが打ち込んであるかどうかで分岐する。
     // #if DebugMode
     //             Debug.Log(message);
     // #endif
