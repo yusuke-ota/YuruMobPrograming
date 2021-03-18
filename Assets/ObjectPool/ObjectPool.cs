@@ -9,7 +9,7 @@ namespace ObjectPool
         private readonly List<GameObject> _objectPool;
         private readonly GameObject _instantiateObject;
         private readonly Transform _parentTransform;
-        
+
         // _objectPool内の非アクティブなGameObjectが0の時に新規生成するGameObjectの数
         // 1フレームに大量に生成すると、処理落ちするので注意(5に根拠はない)
         private const uint ObjectPoolAddSize = 5;
@@ -46,7 +46,7 @@ namespace ObjectPool
             {
                 // _objectPool内の非アクティブなGameObjectを調べてキャッシュ用配列を作成する
                 _nonactiveObjectCaches = _objectPool.Where(pooledObject => !pooledObject.activeInHierarchy).ToList();
-        
+
                 // 非アクティブなGameObjectの数が0だった時
                 if (_nonactiveObjectCaches.Count == 0)
                 {
@@ -62,14 +62,14 @@ namespace ObjectPool
                     }
                 }
             }
-            
+
             #endregion
-            
+
             // キャッシュ用配列の最後の要素を取り出し、アクティブ化して返す
             var cachedGameObject = _nonactiveObjectCaches.Last();
             _nonactiveObjectCaches.Remove(cachedGameObject);
             cachedGameObject.SetActive(true);
-        
+
             return cachedGameObject;
         }
 

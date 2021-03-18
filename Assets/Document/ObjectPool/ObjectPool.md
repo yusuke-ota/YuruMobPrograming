@@ -23,36 +23,40 @@ todo: フロー図
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ObjectPool
+namespace Document.ObjectPool
 {
-
-    public class MyObjectPool
+    public class ObjectPool
     {
         private readonly List<GameObject> _objectPool;
         private readonly GameObject _instantiateObject;
         private readonly Transform _parentTransform;
 
         // コンストラクタ(MonoBehaviorでは使えない)
-        // var objectPool = new MyObjectPool<Type>(..); といった形で初期化できるようになる
-        public MyObjectPool(int firstObjects, GameObject instantiateObject, Transform parentTransform)
+        // var objectPool = new MyObjectPool(..); といった形で初期化できるようになる
+        public ObjectPool(int amountOfFirstObjects, GameObject instantiateObject, Transform parentTransform)
         {
             _instantiateObject = instantiateObject;
             _parentTransform = parentTransform;
             // 無駄なアロケーションを避けるために、new List()にあらかじめ長さを与えておいた方がよい
-            _objectPool = new List<GameObject>(firstObjects);
-            for (var i = 0; i < firstObjects; i++) {
+            _objectPool = new List<GameObject>(amountOfFirstObjects);
+            for (var i = 0; i < amountOfFirstObjects; i++) {
                 _objectPool.Add(Object.Instantiate(_instantiateObject, _parentTransform));
             }
         }
 
+        /// <summary>
+        /// 非アクティブのGameObjectを再利用し、非アクティブのGameObjectがない場合は生成する。
+        /// 内部で配列を全探索しているため、高頻度で呼ぶ場合パフォーマンスが良くない。
+        /// </summary>
+        /// <returns>ObjectPoolが管理しているGameObject</returns>
         public GameObject Rent() {
-            // objectPool内に使われていないGameObjectがあるか確認
-            // あったら再利用する
+            // objectPool内に使われていないGameObjectがあるか確認し、あったら再利用する
+            // _objectPoolを全探索しているので、高頻度で呼ぶ場合パフォーマンスが良くない
             foreach (var pooledObject in _objectPool)
             {
                 // 非アクティブなオブジェクトか判別
                 if (pooledObject.activeInHierarchy) continue;
-                
+
                 pooledObject.SetActive(true);
                 return pooledObject;
             }
@@ -61,13 +65,15 @@ namespace ObjectPool
             GameObject gameObject = Object.Instantiate(_instantiateObject, _parentTransform);
             gameObject.SetActive(true);
             _objectPool.Add(gameObject);
-            return gameObject;    
+            return gameObject;
         }
 
         // 他に処理を入れたくなることもあるかもしれないので、専用のメソッドを生やしておこう
         public void Return(GameObject gameObject) {
             gameObject.SetActive(false);
         }
+
+        public uint CountActiveObject() => (uint)_objectPool.Count(pooledObject => pooledObject.activeInHierarchy);
     }
 }
 ```

@@ -34,39 +34,42 @@ namespace Document.ObjectPool
             {
                 // 非アクティブなオブジェクトか判別
                 if (pooledObject.activeInHierarchy) continue;
-                
+
                 pooledObject.SetActive(true);
                 return pooledObject;
             }
-        
+
             // ないので、生成する
             var gameObject = Object.Instantiate(_instantiateObject, _parentTransform);
             gameObject.SetActive(true);
             _objectPool.Add(gameObject);
-            return gameObject;    
+            return gameObject;
         }
-        
-        // 非アクティブなGameObjectをキャッシュする配列
+
+        // // 非アクティブなGameObjectをキャッシュする配列
         // private List<GameObject> _nonactiveObjectCaches = new List<GameObject>();
-        /// <summary>
-        /// 非アクティブのGameObjectを再利用し、非アクティブのGameObjectがない場合は生成する。
-        /// 非アクティブなGameObjectを配列でキャッシュしているので、高頻度で呼んでもパフォーマンスが劣化しない。
-        /// </summary>
-        /// <returns>ObjectPoolが管理しているGameObject</returns>
+        // /// <summary>
+        // /// 非アクティブのGameObjectを再利用し、非アクティブのGameObjectがない場合は生成する。
+        // /// 非アクティブなGameObjectを配列でキャッシュしているので、高頻度で呼んでもパフォーマンスが劣化しない。
+        // /// </summary>
+        // /// <returns>ObjectPoolが管理しているGameObject</returns>
         // public GameObject Rent()
         // {
+        //     #region キャッシュ用配列が空の時の処理
+
         //     // キャッシュ用の配列が空の時
         //     if (_nonactiveObjectCaches.Count == 0)
         //     {
-        //         // 非アクティブなGameObjectを調べてキャッシュ用配列を作成する
-        //         _nonactiveObjectCaches = _objectPool.Where(pooledObject => pooledObject.activeInHierarchy).ToList();
-        //
+        //         // _objectPool内の非アクティブなGameObjectを調べてキャッシュ用配列を作成する
+        //         _nonactiveObjectCaches = _objectPool.Where(pooledObject => !pooledObject.activeInHierarchy).ToList();
+
         //         // 非アクティブなGameObjectの数が0だった時
         //         if (_nonactiveObjectCaches.Count == 0)
         //         {
-        //             _nonactiveObjectCaches = new List<GameObject>(5);
-        //             // とりあえず5つGameObjectを生成して、オブジェクトプールとキャッシュに追加する
-        //             foreach (var _ in Enumerable.Range(0, 5))
+        //             _nonactiveObjectCaches = new List<GameObject>((int)ObjectPoolAddSize);
+
+        //             // とりあえずいくつかGameObjectを生成して、オブジェクトプールとキャッシュに追加する
+        //             for (var unUseIndex = 0; unUseIndex < ObjectPoolAddSize; unUseIndex++)
         //             {
         //                 var instantiate = Object.Instantiate(_instantiateObject, _parentTransform);
         //                 instantiate.SetActive(false);
@@ -75,18 +78,22 @@ namespace Document.ObjectPool
         //             }
         //         }
         //     }
-        //     
+
+        //     #endregion
+
         //     // キャッシュ用配列の最後の要素を取り出し、アクティブ化して返す
-        //     var gameObject = _nonactiveObjectCaches.Last();
-        //     _nonactiveObjectCaches.Remove(gameObject);
-        //     gameObject.SetActive(true);
-        //
-        //     return gameObject;
+        //     var cachedGameObject = _nonactiveObjectCaches.Last();
+        //     _nonactiveObjectCaches.Remove(cachedGameObject);
+        //     cachedGameObject.SetActive(true);
+
+        //     return cachedGameObject;
         // }
 
         // 他に処理を入れたくなることもあるかもしれないので、専用のメソッドを生やしておこう
         public void Return(GameObject gameObject) {
             gameObject.SetActive(false);
         }
+
+        public uint CountActiveObject() => (uint)_objectPool.Count(pooledObject => pooledObject.activeInHierarchy);
     }
 }
