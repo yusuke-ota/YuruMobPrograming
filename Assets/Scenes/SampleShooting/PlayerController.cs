@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Scenes.SampleShooting
 {
-    public class PlayerController : MonoBehaviour, SampleShooterControls.IShootingActions
+    public class PlayerController : MonoBehaviour, SampleShooterControls.IShootingActions, IDamageable
     {
         private SampleShooterControls _shooterControls;
         private ObjectPool.ObjectPool _objectPool;
@@ -21,11 +21,11 @@ namespace Scenes.SampleShooting
         {
             _objectPool = BulletManager.Instance.PlayerBulletPool;
             _bulletLimit = BulletManager.Instance.BulletLimit;
-            
+
             _shooterControls.Shooting.Enable();
         }
         private void OnDisable() => _shooterControls.Shooting.Disable();
-    
+
         #region IShootingActions実装部分
 
         [SerializeField, Tooltip("速度の係数")] private float speedCoefficient = 0.2f;
@@ -34,7 +34,7 @@ namespace Scenes.SampleShooting
             var inputAxis = context.ReadValue<Vector2>();
             // 入力が弱い場合(触っていない時など)は動作させない
             if (inputAxis.sqrMagnitude < 0.01) return;
-        
+
             transform.localPosition += new Vector3(inputAxis.x, 0, inputAxis.y) * speedCoefficient;
         }
 
@@ -50,7 +50,16 @@ namespace Scenes.SampleShooting
             bullet.transform.position = thisTransform.position;
             bullet.transform.rotation = thisTransform.rotation;
         }
-    
+
         #endregion
+
+        [SerializeField] peivate uint life;
+        private void Damage(){
+            life -= 1;
+
+            if (life <= 0) {
+                gameObject.SetActive(false);
+            }
+        }
     }
 }

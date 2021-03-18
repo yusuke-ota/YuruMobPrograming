@@ -31,5 +31,13 @@ namespace Scenes.SampleShooting
 
             transform.localPosition += transform.localRotation * Vector3.forward * (speed * Time.deltaTime);
         }
+
+        private void OnCollisionEnter(Collision collision){
+            if gameObject.CompareTag(collision.gameObject){
+                return;
+            }
+
+            collision.GetComponent<IDamageable>()?.Damage();
+        }
     }
 }
