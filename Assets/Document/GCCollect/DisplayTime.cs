@@ -16,7 +16,7 @@ namespace Document.GCCollect
             var timerText =　"起動してから\n"; // 1
             timerText += _totalTime; // float->string: 2, +=: 3
             timerText += "\n秒が経ちました。"; // 4
-        
+
             timerTextUI.text = timerText;
 
             // 文字列補完
