@@ -33,11 +33,11 @@ namespace Scenes.SampleShooting
         }
 
         private void OnCollisionEnter(Collision collision){
-            if gameObject.CompareTag(collision.gameObject){
+            if (gameObject.CompareTag(collision.gameObject.tag)){
                 return;
             }
 
-            collision.GetComponent<IDamageable>()?.Damage();
+            collision.gameObject.GetComponent<IDamageable>()?.Damage();
         }
     }
 }

@@ -13,13 +13,13 @@ namespace Scenes.SampleShooting
         [SerializeField] private GameObject bullet;
         [SerializeField] private uint bulletLimit = 20;
         [SerializeField] private GameObject enemyBullet;
-        [SerializeField] private uint enemyBulletPoolsize = 40;
+        [SerializeField] private uint enemyBulletPoolSize = 40;
 
         private void Awake()
         {
             Instance = this;
             PlayerBulletPool = new ObjectPool.ObjectPool(bulletLimit, bullet, transform);
-            EnemyBulletPool = new ObjectPool.ObjectPool(enemyBulletPoolsize, enemyBullet, transform);
+            EnemyBulletPool = new ObjectPool.ObjectPool(enemyBulletPoolSize, enemyBullet, transform);
         }
     }
 }

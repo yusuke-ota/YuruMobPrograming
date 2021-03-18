@@ -11,44 +11,44 @@ namespace Scenes.SampleShooting
 
         [SerializeField] private uint shootPerSecond;
         private ObjectPool.ObjectPool _objectPool;
-        private float shootWait;
+        private float _shootWait;
         private void OnEnable()
         {
             _objectPool = BulletManager.Instance.EnemyBulletPool;
-            shootWait = 1.0f / shootPerSecond;
-            bulletTimer = 0f;
-            moveTimer = 0f;
+            _shootWait = 1.0f / shootPerSecond;
+            _bulletTimer = 0f;
+            _moveTimer = 0f;
         }
 
-        private float bulletTimer;
+        private float _bulletTimer;
         private void Update(){
-            bulletTimer += Time.deltaTime;
-            if (bulletTimer >= shootWait) {
-                this.Shoot();
-                bulletTimer -= shootWait;
+            _bulletTimer += Time.deltaTime;
+            if (_bulletTimer >= _shootWait) {
+                this.OnShoot();
+                _bulletTimer -= _shootWait;
             }
             this.Move();
         }
 
-        private void Shoot(){
+        private void OnShoot(){
             var bullet = _objectPool.Rent();
             var thisTransform = transform;
             bullet.transform.position = thisTransform.position;
             bullet.transform.rotation = thisTransform.rotation;
         }
 
-        private float moveTimer;
+        private float _moveTimer;
         private void Move(){
-            moveTimer += Time.deltaTime;
-            if (moveTimer >= moveSpan) {
+            _moveTimer += Time.deltaTime;
+            if (_moveTimer >= moveSpan) {
                 dx *= -1;
                 dy *= -1;
             }
 
-            bullet.transform.position += new Vector3(dx * Time.deltaTime, 0, dy * Time.deltaTime);
+            transform.position += new Vector3(dx * Time.deltaTime, 0, dy * Time.deltaTime);
         }
 
-        private void Damage(){
+        public void Damage(){
             gameObject.SetActive(false);
         }
     }

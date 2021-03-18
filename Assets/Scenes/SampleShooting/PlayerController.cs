@@ -1,4 +1,3 @@
-using System;
 using SampleShooting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,15 +7,14 @@ namespace Scenes.SampleShooting
     public class PlayerController : MonoBehaviour, SampleShooterControls.IShootingActions, IDamageable
     {
         private SampleShooterControls _shooterControls;
-        private ObjectPool.ObjectPool _objectPool;
-        private uint _bulletLimit;
-
         private void Awake()
         {
             _shooterControls = new SampleShooterControls();
             _shooterControls.Shooting.SetCallbacks(this);
         }
 
+        private ObjectPool.ObjectPool _objectPool;
+        private uint _bulletLimit;
         private void OnEnable()
         {
             _objectPool = BulletManager.Instance.PlayerBulletPool;
@@ -53,8 +51,8 @@ namespace Scenes.SampleShooting
 
         #endregion
 
-        [SerializeField] peivate uint life;
-        private void Damage(){
+        [SerializeField] private uint life;
+        public void Damage(){
             life -= 1;
 
             if (life <= 0) {
