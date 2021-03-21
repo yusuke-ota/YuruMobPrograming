@@ -20,24 +20,38 @@ namespace Scenes.SampleShooting
             _totalTime = 0;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _totalTime += Time.deltaTime;
-            if (lifeTime <= _totalTime)
-            {
-                _manager.PlayerBulletPool.Return(gameObject);
-                return;
-            }
-
             transform.localPosition += transform.localRotation * Vector3.forward * (speed * Time.deltaTime);
+
+            if (_totalTime >= lifeTime)
+            {
+                ReturnToObjectPool();
+            }
         }
 
-        private void OnCollisionEnter(Collision collision){
-            if (gameObject.CompareTag(collision.gameObject.tag)){
+        private void OnTriggerEnter(Collider other)
+        {
+            if (gameObject.CompareTag(other.gameObject.tag)){
                 return;
             }
 
-            collision.gameObject.GetComponent<IDamageable>()?.Damage();
+            other.gameObject.GetComponent<IDamageable>()?.Damage();
+            ReturnToObjectPool();
+        }
+
+        private void ReturnToObjectPool()
+        {
+            switch (gameObject.tag)
+            {
+                case "Player":
+                    _manager.PlayerBulletPool.Return(gameObject);
+                    return;
+                case "Enemy":
+                    _manager.EnemyBulletPool.Return(gameObject);
+                    return;
+            }
         }
     }
 }
