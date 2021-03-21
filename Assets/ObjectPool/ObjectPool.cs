@@ -12,14 +12,15 @@ namespace ObjectPool
 
         // _objectPool内の非アクティブなGameObjectが0の時に新規生成するGameObjectの数
         // 1フレームに大量に生成すると、処理落ちするので注意(5に根拠はない)
-        private const uint ObjectPoolAddSize = 5;
+        private readonly uint _objectPoolGrowSize;
 
         // コンストラクタ(MonoBehaviorでは使えない)
         // var objectPool = new MyObjectPool(..); といった形で初期化できるようになる
-        public ObjectPool(uint capacity, GameObject instantiateObject, Transform parentTransform)
+        public ObjectPool(uint capacity, GameObject instantiateObject, Transform parentTransform, uint objectPoolGrowSize = 5)
         {
             _instantiateObject = instantiateObject;
             _parentTransform = parentTransform;
+            _objectPoolGrowSize = objectPoolGrowSize;
             // 無駄なアロケーションを避けるために、new List()にあらかじめ長さを与えておいた方がよい
             _objectPool = new List<GameObject>((int)capacity);
             for (var i = 0; i < capacity; i++)
@@ -50,10 +51,10 @@ namespace ObjectPool
                 // 非アクティブなGameObjectの数が0だった時
                 if (_nonactiveObjectCaches.Count == 0)
                 {
-                    _nonactiveObjectCaches = new List<GameObject>((int)ObjectPoolAddSize);
+                    _nonactiveObjectCaches = new List<GameObject>((int)_objectPoolGrowSize);
 
                     // とりあえずいくつかGameObjectを生成して、オブジェクトプールとキャッシュに追加する
-                    for (var unUseIndex = 0; unUseIndex < ObjectPoolAddSize; unUseIndex++)
+                    for (var unUseIndex = 0; unUseIndex < _objectPoolGrowSize; unUseIndex++)
                     {
                         var instantiate = Object.Instantiate(_instantiateObject, _parentTransform);
                         instantiate.SetActive(false);
