@@ -23,7 +23,7 @@ namespace Document.GCCollect
             // 今から2回GC.Allocします。
             // string timerText = $"起動してから\n{_totalTime}\n秒が経ちました。"; // float->string: 1, 文字列結合: 2
             //
-            // timerTextUI = timerText;
+            // timerTextUI.text = timerText;
 
             // StringBuilder
             // StringBuilder timerText = new StringBuilder("起動してから\n", 40); // 1
