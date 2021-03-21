@@ -15,13 +15,7 @@ namespace Scenes.SampleShooting
 
         private ObjectPool.ObjectPool _objectPool;
         private uint _bulletLimit;
-        private void OnEnable()
-        {
-            _objectPool = BulletManager.Instance.PlayerBulletPool;
-            _bulletLimit = BulletManager.Instance.BulletLimit;
-
-            _shooterControls.Shooting.Enable();
-        }
+        private void OnEnable() => _shooterControls.Shooting.Enable();
         private void OnDisable() => _shooterControls.Shooting.Disable();
 
         #region IShootingActions実装部分
@@ -38,6 +32,11 @@ namespace Scenes.SampleShooting
 
         public void OnShoot(InputAction.CallbackContext context)
         {
+            if (_objectPool is null)
+            {
+                _objectPool = BulletManager.Instance.PlayerBulletPool;
+                _bulletLimit = BulletManager.Instance.BulletLimit;
+            }
             var buttonPush = context.ReadValue<float>();
             // 入力が弱い場合(触っていない時など)は動作させない
             if (buttonPush < 0.01) return;

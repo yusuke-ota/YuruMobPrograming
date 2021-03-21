@@ -1,33 +1,30 @@
-using System;
-using SampleShooting;
 using UnityEngine;
 
 namespace Scenes.SampleShooting
 {
     public class EnemyController : MonoBehaviour, IDamageable{
-        [SerializeField] private int dx;
-        [SerializeField] private int dy;
-        [SerializeField] private uint moveSpan;
+        [SerializeField, Tooltip("1秒間に移動する移動量")] private int dx;
+        [SerializeField, Tooltip("1秒間に移動する移動量")] private int dy;
+        [SerializeField, Tooltip("移動方向が反転するまでの時間(ms)")] private uint moveSpan;
 
-        [SerializeField] private uint shootPerSecond;
-        private ObjectPool.ObjectPool _objectPool;
-        private float _shootWait;
+        [SerializeField, Tooltip("弾を発射する間隔(s)")] private uint shootPerSecond;
         private void OnEnable()
         {
-            _objectPool = BulletManager.Instance.EnemyBulletPool;
-            _shootWait = 1.0f / shootPerSecond;
             _bulletTimer = 0f;
             _moveTimer = 0f;
         }
 
         private float _bulletTimer;
-        private void Update(){
+        private ObjectPool.ObjectPool _objectPool;
+        private void FixedUpdate(){
+            Move();
+
+            _objectPool ??= BulletManager.Instance.EnemyBulletPool;
             _bulletTimer += Time.deltaTime;
-            if (_bulletTimer >= _shootWait) {
-                this.OnShoot();
-                _bulletTimer -= _shootWait;
+            if (_bulletTimer >= shootPerSecond) {
+                OnShoot();
+                _bulletTimer -= shootPerSecond;
             }
-            this.Move();
         }
 
         private void OnShoot(){
@@ -43,6 +40,7 @@ namespace Scenes.SampleShooting
             if (_moveTimer >= moveSpan) {
                 dx *= -1;
                 dy *= -1;
+                _moveTimer -= moveSpan;
             }
 
             transform.position += new Vector3(dx * Time.deltaTime, 0, dy * Time.deltaTime);
