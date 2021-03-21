@@ -34,7 +34,12 @@ GC.Collect:
 GC.Allocで確保されたヒープ領域の中で、使用していない部分を手放す処理。  
 ほとんどの言語で、GC Collectはとても重く、そのタイミングのみCPUの使用率が跳ね上がる。
 
-(記憶の片隅に置いてもらえば良い知識)  
+使い終わっているはずだがGC.Collectで回収されない場合、メモリリークと呼ばれたりする。
+
+もうちょっと詳しく知りたい人は、[ufcpp-C# のメモリ管理](https://ufcpp.net/study/computer/MemoryManagement.html)あたりを読むといいかも。  
+(コンピュータサイエンス系の本を読むのが一番だとは思いますが、めちゃくちゃ時間がかかるので覚悟がいります)
+
+(**記憶の片隅に置いてもらえば良い知識**)  
 GC.AllocとGC.Collectを繰り返すと、ヒープ領域が虫食い状態になり、メモリの局所性を失う。  
 キャッシュミスヒットが多くなり、メモリからキャッシュへの読み込み回数が上がり、処理速度が落ちる。  
 この対策のためにUnityではNative Container(DOTS ECSの一部)が考えられている。
@@ -61,6 +66,36 @@ VRの敵。FPSの敵。アクションゲームの敵。
 
 ```C#
 public class DisplayTime: MonoBehaviour {
+    private void Update(){
+        // 毎フレームListを作って破棄します
+        var positionList = new List<Vector3>{transform.position, transform.localPosition};
+    }
+}
+```
+
+### よくない例1 改善例
+
+毎フレーム要素が変わるような配列は入れ物を使いまわす。
+
+```diff
+public class DisplayTime: MonoBehaviour {
++   private readonly List<Vector3> _positionList = new List<Vector3>();
+    private void Update(){
+        // 毎フレームListを作って破棄します
+-       var positionList = new List<Vector3>{transform.position, transform.localPosition};
++       _positionList.Add(transform.position)
++       _positionList.Add(transform.localPosition);
++
++       // 使い終わったら中の要素を空にする
++       _positionList.Clear();
+    }
+}
+```
+
+### よくない例2
+
+```C#
+public class DisplayTime: MonoBehaviour {
     [Header("UI設定部分")]
     [SerializeField, Tooltip("タイマー表示UIのテキスト部分をアタッチしてください")]
     private Text timerTextUI;
@@ -69,17 +104,17 @@ public class DisplayTime: MonoBehaviour {
     private void Update(){
         _totalTime += Time.deltaTime;
 
-        // 今から3回GC.Allocします。
+        // 今から4回GC.Allocします。
         string timerText =　"起動してから"; // 1
-        timerText += _totalTime; // 2
-        timerText += "秒が経ちました。"; // 3
+        timerText += _totalTime; // float->string: 2, +=: 3
+        timerText += "秒が経ちました。"; // 4
 
         timerTextUI.text = timerText;
     }
 }
 ```
 
-### よくない例1 改善例
+### よくない例2 改善例
 
 決まった文字列を結合するなら文字列補完を使おう。  
 for文で結合するならStringBuilderで作ろう。  
@@ -124,7 +159,7 @@ URL: <https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/inside-a-
     }
 ```
 
-##### そもそもUpdateのたびにStringBuilderを作るのをやめる
+#### StringBuilderとよくない例1の複合
 
 ```diff
 +   // 初回のみ1回GC.Alloc
