@@ -28,8 +28,7 @@ namespace Scenes.SampleShooting
                 OnMove(moveDistance);
             }
 
-            var shootKeyInput = _shooterControls.Shooting.Shoot.ReadValue<float>();
-            if (shootKeyInput >= InputSystem.settings.defaultButtonPressPoint)
+            if (_shooterControls.Shooting.Shoot.triggered)
             {
                 OnShoot();
             }
