@@ -1,5 +1,7 @@
 # Unity / C#のGCについて
 
+基本的にこのドキュメントで言いたいことは[この記事](https://light11.hatenadiary.com/entry/2019/10/16/211435) に書かれているので、こっちを見る方が良いです。
+
 ## GCとは
 
 G(ガーベッジ)C(コレクション)
@@ -36,7 +38,7 @@ GC.Allocで確保されたヒープ領域の中で、使用していない部分
 
 使い終わっているはずだがGC.Collectで回収されない場合、メモリリークと呼ばれたりする。
 
-もうちょっと詳しく知りたい人は、[ufcpp-C# のメモリ管理](https://ufcpp.net/study/computer/MemoryManagement.html)あたりを読むといいかも。  
+もうちょっと詳しく知りたい人は、[ufcpp-C# のメモリ管理](https://ufcpp.net/study/computer/MemoryManagement.html) あたりを読むといいかも。  
 (コンピュータサイエンス系の本を読むのが一番だとは思いますが、めちゃくちゃ時間がかかるので覚悟がいります)
 
 (**記憶の片隅に置いてもらえば良い知識**)  
@@ -45,6 +47,8 @@ GC.AllocとGC.Collectを繰り返すと、ヒープ領域が虫食い状態に�
 この対策のためにUnityではNative Container(DOTS ECSの一部)が考えられている。
 
 ## UnityにおけるGC
+
+UnityのGC周りで具体的に何を避けた方が良いのかは、[Unity 公式マニュアル マネージヒープ](https://docs.unity3d.com/ja/2020.3/Manual/BestPracticeUnderstandingPerformanceInUnity4-1.html) にまとまっています。
 
 C#のGCが動いている(はず)
 
@@ -75,6 +79,7 @@ public class DisplayTime: MonoBehaviour {
 
 ### よくない例1 改善例
 
+入れ物を作るのにGC.Allocしているので、  
 毎フレーム要素が変わるような配列は入れ物を使いまわす。
 
 ```diff
@@ -119,8 +124,7 @@ public class DisplayTime: MonoBehaviour {
 決まった文字列を結合するなら文字列補完を使おう。  
 for文で結合するならStringBuilderで作ろう。  
 
-参考: MicroSoft: C# のコーディング規則 - 文字列型 (String)  
-URL: <https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/inside-a-program/coding-conventions#string-data-type>
+参考: [MicroSoft: C# のコーディング規則 - 文字列型 (String)](<https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/inside-a-program/coding-conventions#string-data-type>)
 
 #### 文字列補完
 
