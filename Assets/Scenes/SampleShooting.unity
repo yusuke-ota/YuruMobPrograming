@@ -225,9 +225,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 562656257}
+  - component: {fileID: 562656258}
   - component: {fileID: 562656256}
   m_Layer: 0
-  m_Name: BulletManager
+  m_Name: Bullets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,11 +243,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 562656255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 044d74d450f1c164aa91e221188170a6, type: 3}
+  m_Script: {fileID: 11500000, guid: fc7e896860254dce90a83d5b93e33911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 6870178307687411484, guid: 365fa0bc777703d4eb8bfd1745401ed5, type: 3}
-  bulletLimit: 20
   enemyBullet: {fileID: 802914473520469493, guid: 41163d06f7d92d2489ad154f74370e1f, type: 3}
   enemyBulletPoolSize: 40
 --- !u!4 &562656257
@@ -263,6 +262,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &562656258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562656255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da2b9f9b105b427badd6cfcaefa132db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 6870178307687411484, guid: 365fa0bc777703d4eb8bfd1745401ed5, type: 3}
+  bulletLimit: 20
 --- !u!1001 &602704414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -418,6 +431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 717689550}
+  - component: {fileID: 717689551}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
@@ -445,6 +459,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &717689551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717689549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d222908a0bfe4250805a74518094e282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &760232446
 PrefabInstance:
   m_ObjectHideFlags: 0

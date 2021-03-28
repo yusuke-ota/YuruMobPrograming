@@ -1,27 +1,31 @@
 using SampleShooting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Scenes.SampleShooting
 {
-    public class PlayerController : MonoBehaviour, IDamageable
+    public interface IPlayerControllable
+    {
+        public void Construct(IPlayerBalletPool playerBalletPool);
+    }
+    
+    public class PlayerController : MonoBehaviour, IDamageable, IPlayerControllable
     {
         private SampleShooterControls _shooterControls;
         private void Awake() => _shooterControls = new SampleShooterControls();
         private void OnEnable() => _shooterControls.Shooting.Enable();
         private void OnDisable() => _shooterControls.Shooting.Disable();
+
+        public void Construct(IPlayerBalletPool playerBalletPool)
+        {
+            _objectPool = playerBalletPool.Pool();
+            _bulletLimit = playerBalletPool.BulletLimit();
+        }
         
         private uint _bulletLimit;
         private ObjectPool.ObjectPool _objectPool;
         [SerializeField, Tooltip("速度の係数")] private float speedCoefficient = 0.2f;
         private void FixedUpdate()
         {
-            if (_objectPool is null)
-            {
-                _objectPool = BulletManager.Instance.PlayerBulletPool;
-                _bulletLimit = BulletManager.Instance.BulletLimit;
-            }
-
             var moveDistance = _shooterControls.Shooting.Move.ReadValue<Vector2>();
             if (moveDistance.sqrMagnitude >= 0.01f)
             {
@@ -47,6 +51,7 @@ namespace Scenes.SampleShooting
             var thisTransform = transform;
             bullet.transform.position = thisTransform.position;
             bullet.transform.rotation = thisTransform.rotation;
+            bullet.GetComponent<Bullet>()?.Constructor(_objectPool);
         }
 
         [SerializeField] private uint life;
