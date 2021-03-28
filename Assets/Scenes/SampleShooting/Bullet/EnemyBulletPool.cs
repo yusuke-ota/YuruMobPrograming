@@ -14,9 +14,13 @@ namespace Scenes.SampleShooting.Bullet
             _enemyBulletPool = new ObjectPool.ObjectPool(enemyBulletPoolSize, enemyBullet, transform);
         }
 
+        #region IEnemyBulletPool実装部分
+
         public ObjectPool.ObjectPool Pool()
         {
             return _enemyBulletPool;
         }
+
+        #endregion
     }
 }

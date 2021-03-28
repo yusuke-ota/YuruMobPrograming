@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace Scenes.SampleShooting.Character
 {
+    /// <summary>
+    ///     Enemyの毎フレームの動作、被弾時の処理を実装するクラス。
+    ///     依存関係についてはIEnemyControllableを経由してDependence Resolver.csから設定される。
+    /// </summary>
     public class EnemyController : MonoBehaviour, IDamageable, IEnemyControllable
     {
         [SerializeField] [Tooltip("1秒間に移動する移動量")]
@@ -41,16 +45,6 @@ namespace Scenes.SampleShooting.Character
             _moveTimer = 0f;
         }
 
-        public void Damage()
-        {
-            gameObject.SetActive(false);
-        }
-
-        public void Construct(IEnemyBulletPool enemyBulletPool)
-        {
-            _bulletPool = enemyBulletPool.Pool();
-        }
-
         private void OnShoot()
         {
             var bullet = _bulletPool.Rent();
@@ -72,5 +66,23 @@ namespace Scenes.SampleShooting.Character
 
             transform.position += new Vector3(dx * Time.deltaTime, 0, dy * Time.deltaTime);
         }
+        
+        #region IDamageable実装部分
+
+        public void Damage()
+        {
+            gameObject.SetActive(false);
+        }
+
+        #endregion
+
+        #region IEnemyControllable実装部分
+
+        public void Construct(IEnemyBulletPool enemyBulletPool)
+        {
+            _bulletPool = enemyBulletPool.Pool();
+        }
+
+        #endregion
     }
 }

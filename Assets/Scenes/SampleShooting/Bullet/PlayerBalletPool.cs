@@ -14,6 +14,8 @@ namespace Scenes.SampleShooting.Bullet
             _playerBulletPool = new ObjectPool.ObjectPool(bulletLimit, bullet, transform);
         }
 
+        #region IPlayerBalletPool実装部分
+
         public ObjectPool.ObjectPool Pool()
         {
             return _playerBulletPool;
@@ -23,5 +25,7 @@ namespace Scenes.SampleShooting.Bullet
         {
             return bulletLimit;
         }
+
+        #endregion
     }
 }

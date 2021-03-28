@@ -8,13 +8,6 @@ namespace Scenes.SampleShooting.Bullet
         [SerializeField] private float speed = 2;
         [SerializeField] private float lifeTime = 10;
 
-        private ObjectPool.ObjectPool _bulletPool;
-
-        public void Constructor(ObjectPool.ObjectPool playerBalletPool)
-        {
-            _bulletPool = playerBalletPool;
-        }
-
         private float _totalTime;
 
         private void FixedUpdate()
@@ -42,5 +35,16 @@ namespace Scenes.SampleShooting.Bullet
         {
             _bulletPool.Return(gameObject);
         }
+
+        #region IBulletConstractable実装部分
+
+        private ObjectPool.ObjectPool _bulletPool;
+
+        public void Constructor(ObjectPool.ObjectPool playerBalletPool)
+        {
+            _bulletPool = playerBalletPool;
+        }
+
+        #endregion
     }
 }
