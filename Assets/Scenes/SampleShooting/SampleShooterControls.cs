@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace SampleShooting
+namespace Scenes.SampleShooting
 {
     public class @SampleShooterControls : IInputActionCollection, IDisposable
     {
