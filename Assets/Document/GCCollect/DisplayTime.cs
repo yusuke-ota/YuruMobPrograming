@@ -3,17 +3,19 @@ using UnityEngine.UI;
 
 namespace Document.GCCollect
 {
-    public class DisplayTime: MonoBehaviour {
-        [Header("UI設定部分")]
-        [SerializeField, Tooltip("タイマー表示UIのテキスト部分をアタッチしてください")]
+    public class DisplayTime : MonoBehaviour
+    {
+        [Header("UI設定部分")] [SerializeField] [Tooltip("タイマー表示UIのテキスト部分をアタッチしてください")]
         private Text timerTextUI;
 
-        private float _totalTime = 0;
-        private void Update(){
+        private float _totalTime;
+
+        private void Update()
+        {
             _totalTime += Time.deltaTime;
 
             // 今から4回GC.Allocします。
-            var timerText =　"起動してから\n"; // 1
+            var timerText = "起動してから\n"; // 1
             timerText += _totalTime; // float->string: 2, +=: 3
             timerText += "\n秒が経ちました。"; // 4
 

@@ -6,8 +6,8 @@ namespace Document.ObjectPool
 {
     public class ObjectPool
     {
-        private readonly List<GameObject> _objectPool;
         private readonly GameObject _instantiateObject;
+        private readonly List<GameObject> _objectPool;
         private readonly Transform _parentTransform;
 
         // コンストラクタ(MonoBehaviorでは使えない)
@@ -18,17 +18,17 @@ namespace Document.ObjectPool
             _parentTransform = parentTransform;
             // 無駄なアロケーションを避けるために、new List()にあらかじめ長さを与えておいた方がよい
             _objectPool = new List<GameObject>(amountOfFirstObjects);
-            for (var i = 0; i < amountOfFirstObjects; i++) {
+            for (var i = 0; i < amountOfFirstObjects; i++)
                 _objectPool.Add(Object.Instantiate(_instantiateObject, _parentTransform));
-            }
         }
 
         /// <summary>
-        /// 非アクティブのGameObjectを再利用し、非アクティブのGameObjectがない場合は生成する。
-        /// 内部で配列を全探索しているため、高頻度で呼ぶ場合パフォーマンスが良くない。
+        ///     非アクティブのGameObjectを再利用し、非アクティブのGameObjectがない場合は生成する。
+        ///     内部で配列を全探索しているため、高頻度で呼ぶ場合パフォーマンスが良くない。
         /// </summary>
         /// <returns>ObjectPoolが管理しているGameObject</returns>
-        public GameObject Rent() {
+        public GameObject Rent()
+        {
             // objectPool内に使われていないGameObjectがあるか確認し、あったら再利用する
             // _objectPoolを全探索しているので、高頻度で呼ぶ場合パフォーマンスが良くない
             foreach (var pooledObject in _objectPool)
@@ -91,10 +91,14 @@ namespace Document.ObjectPool
         // }
 
         // 他に処理を入れたくなることもあるかもしれないので、専用のメソッドを生やしておこう
-        public void Return(GameObject gameObject) {
+        public void Return(GameObject gameObject)
+        {
             gameObject.SetActive(false);
         }
 
-        public uint CountActiveObject() => (uint)_objectPool.Count(pooledObject => pooledObject.activeInHierarchy);
+        public uint CountActiveObject()
+        {
+            return (uint) _objectPool.Count(pooledObject => pooledObject.activeInHierarchy);
+        }
     }
 }

@@ -5,26 +5,23 @@ namespace Scenes.SampleShooting.Character
 {
     public class EnemyController : MonoBehaviour, IDamageable, IEnemyControllable
     {
-        [SerializeField, Tooltip("1秒間に移動する移動量")]
+        [SerializeField] [Tooltip("1秒間に移動する移動量")]
         private int dx;
 
-        [SerializeField, Tooltip("1秒間に移動する移動量")]
+        [SerializeField] [Tooltip("1秒間に移動する移動量")]
         private int dy;
 
-        [SerializeField, Tooltip("移動方向が反転するまでの時間(ms)")]
+        [SerializeField] [Tooltip("移動方向が反転するまでの時間(ms)")]
         private uint moveSpan;
 
-        [SerializeField, Tooltip("弾を発射する間隔(s)")]
+        [SerializeField] [Tooltip("弾を発射する間隔(s)")]
         private uint shootPerSecond;
 
-        private void OnEnable()
-        {
-            _bulletTimer = 0f;
-            _moveTimer = 0f;
-        }
+        private ObjectPool.ObjectPool _bulletPool;
 
         private float _bulletTimer;
-        private ObjectPool.ObjectPool _bulletPool;
+
+        private float _moveTimer;
 
         private void FixedUpdate()
         {
@@ -38,6 +35,22 @@ namespace Scenes.SampleShooting.Character
             }
         }
 
+        private void OnEnable()
+        {
+            _bulletTimer = 0f;
+            _moveTimer = 0f;
+        }
+
+        public void Damage()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void Construct(IEnemyBulletPool enemyBulletPool)
+        {
+            _bulletPool = enemyBulletPool.Pool();
+        }
+
         private void OnShoot()
         {
             var bullet = _bulletPool.Rent();
@@ -46,8 +59,6 @@ namespace Scenes.SampleShooting.Character
             bullet.transform.rotation = thisTransform.rotation;
             bullet.GetComponent<IBulletConstractable>()?.Constructor(_bulletPool);
         }
-
-        private float _moveTimer;
 
         private void Move()
         {
@@ -60,16 +71,6 @@ namespace Scenes.SampleShooting.Character
             }
 
             transform.position += new Vector3(dx * Time.deltaTime, 0, dy * Time.deltaTime);
-        }
-
-        public void Damage()
-        {
-            gameObject.SetActive(false);
-        }
-
-        public void Construct(IEnemyBulletPool enemyBulletPool)
-        {
-            _bulletPool = enemyBulletPool.Pool();
         }
     }
 }

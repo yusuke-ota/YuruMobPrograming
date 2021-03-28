@@ -4,10 +4,10 @@ namespace Scenes.SampleShooting.DIContainer
 {
     public class DependenciesResolver : IInitializable
     {
-        private readonly IPlayerBalletPool _playerBalletPool;
-        private readonly IPlayerControllable _playerControllable;
         private readonly IEnemyBulletPool _enemyBulletPool;
         private readonly Enemies _enemyControllables;
+        private readonly IPlayerBalletPool _playerBalletPool;
+        private readonly IPlayerControllable _playerControllable;
 
         public DependenciesResolver(IPlayerBalletPool playerBalletPool, IPlayerControllable playerControllable,
             IEnemyBulletPool enemyBulletPool, Enemies enemyControllableControllables)

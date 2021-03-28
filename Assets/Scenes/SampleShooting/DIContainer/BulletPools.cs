@@ -4,7 +4,7 @@
     {
         public ObjectPool.ObjectPool Pool();
     }
-    
+
     public interface IPlayerBalletPool
     {
         ObjectPool.ObjectPool Pool();

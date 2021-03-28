@@ -4,10 +4,9 @@
     {
         public void Construct(IPlayerBalletPool playerBalletPool);
     }
-    
+
     public interface IEnemyControllable
     {
         public void Construct(IEnemyBulletPool enemyBulletPool);
     }
-
 }
