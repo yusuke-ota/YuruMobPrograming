@@ -1,8 +1,9 @@
+using Scenes.SampleShooting.Character;
 using UnityEngine;
 
-namespace Scenes.SampleShooting
+namespace Scenes.SampleShooting.Bullet
 {
-    public class Bullet : MonoBehaviour
+    public class Bullet : MonoBehaviour, IBulletConstractable
     {
         [SerializeField] private float speed = 2;
         [SerializeField] private float lifeTime = 10;

@@ -1,7 +1,9 @@
+using Scenes.SampleShooting.Bullet;
+using Scenes.SampleShooting.Character;
 using VContainer;
 using VContainer.Unity;
 
-namespace Scenes.SampleShooting
+namespace Scenes.SampleShooting.DIContainer
 {
     public class SampleSceneGameLifetimeScope : LifetimeScope
     {

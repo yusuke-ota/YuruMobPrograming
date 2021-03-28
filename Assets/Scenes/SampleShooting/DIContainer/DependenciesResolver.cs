@@ -1,6 +1,6 @@
 ﻿using VContainer.Unity;
 
-namespace Scenes.SampleShooting
+namespace Scenes.SampleShooting.DIContainer
 {
     public class DependenciesResolver : IInitializable
     {

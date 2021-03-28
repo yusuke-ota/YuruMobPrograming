@@ -1,13 +1,8 @@
-using SampleShooting;
+using Scenes.SampleShooting.DIContainer;
 using UnityEngine;
 
-namespace Scenes.SampleShooting
+namespace Scenes.SampleShooting.Character
 {
-    public interface IPlayerControllable
-    {
-        public void Construct(IPlayerBalletPool playerBalletPool);
-    }
-    
     public class PlayerController : MonoBehaviour, IDamageable, IPlayerControllable
     {
         private SampleShooterControls _shooterControls;
@@ -51,7 +46,7 @@ namespace Scenes.SampleShooting
             var thisTransform = transform;
             bullet.transform.position = thisTransform.position;
             bullet.transform.rotation = thisTransform.rotation;
-            bullet.GetComponent<Bullet>()?.Constructor(_objectPool);
+            bullet.GetComponent<IBulletConstractable>()?.Constructor(_objectPool);
         }
 
         [SerializeField] private uint life;

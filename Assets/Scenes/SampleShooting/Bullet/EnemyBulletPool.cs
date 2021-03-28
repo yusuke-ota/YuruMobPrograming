@@ -1,12 +1,8 @@
-﻿using UnityEngine;
+﻿using Scenes.SampleShooting.DIContainer;
+using UnityEngine;
 
-namespace Scenes.SampleShooting
+namespace Scenes.SampleShooting.Bullet
 {
-    public interface IEnemyBulletPool
-    {
-        public ObjectPool.ObjectPool Pool();
-    }
-    
     public class EnemyBulletPool: MonoBehaviour, IEnemyBulletPool
     {
         [SerializeField] private GameObject enemyBullet;

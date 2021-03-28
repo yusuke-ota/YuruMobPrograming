@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Scenes.SampleShooting
+namespace Scenes.SampleShooting.DIContainer
 {
     public class Enemies: MonoBehaviour
     {

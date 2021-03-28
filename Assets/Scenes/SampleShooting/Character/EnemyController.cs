@@ -1,12 +1,8 @@
+using Scenes.SampleShooting.DIContainer;
 using UnityEngine;
 
-namespace Scenes.SampleShooting
+namespace Scenes.SampleShooting.Character
 {
-    public interface IEnemyControllable
-    {
-        public void Construct(IEnemyBulletPool enemyBulletPool);
-    }
-
     public class EnemyController : MonoBehaviour, IDamageable, IEnemyControllable
     {
         [SerializeField, Tooltip("1秒間に移動する移動量")]
@@ -48,7 +44,7 @@ namespace Scenes.SampleShooting
             var thisTransform = transform;
             bullet.transform.position = thisTransform.position;
             bullet.transform.rotation = thisTransform.rotation;
-            bullet.GetComponent<Bullet>()?.Constructor(_bulletPool);
+            bullet.GetComponent<IBulletConstractable>()?.Constructor(_bulletPool);
         }
 
         private float _moveTimer;

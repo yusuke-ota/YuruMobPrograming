@@ -1,13 +1,8 @@
-﻿using UnityEngine;
+﻿using Scenes.SampleShooting.DIContainer;
+using UnityEngine;
 
-namespace Scenes.SampleShooting
+namespace Scenes.SampleShooting.Bullet
 {
-    public interface IPlayerBalletPool
-    {
-        ObjectPool.ObjectPool Pool();
-        uint BulletLimit();
-    }
-
     public class PlayerBalletPool: MonoBehaviour, IPlayerBalletPool
     {
         [SerializeField] private GameObject bullet;
