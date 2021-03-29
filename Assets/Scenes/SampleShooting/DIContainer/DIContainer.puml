@@ -1,0 +1,62 @@
+@startuml
+circle EntryPoint
+
+namespace Scenes.SampleShooting.DIContainer{
+	interface IEnemyBulletPool
+	{
+		+ Pool(): ObjectPool.ObjectPool 
+	}
+
+	interface IPlayerBulletPool
+	{
+		+ Pool(): ObjectPool.ObjectPool
+		+ BulletLimit(): uint
+	}
+
+	interface IPlayerControllable
+    {
+        + Construct(IPlayerBulletPool playerBulletPool): void
+    }
+
+    interface IEnemyControllable
+    {
+        + Construct(IEnemyBulletPool enemyBulletPool): void
+    }
+
+	class Enemies
+	{
+		- _enemyBulletPool: IEnemyBulletPool
+
+		- Start(): void
+		+ Construct(IEnemyBulletPool enemyBulletPool): void
+	}
+
+	class DependenciesResolver
+	{
+		- readonly _enemyBulletPool: IEnemyBulletPool
+		- readonly _enemies: Enemies
+		- readonly _playerBulletPool: IPlayerBulletPool
+		- readonly _playerControllable: IPlayerControllable
+
+		
+		+ DependenciesResolver(IPlayerBulletPool playerBulletPool, IPlayerControllable playerControllable, IEnemyBulletPool enemyBulletPool, Enemies enemies): DependenciesResolver
+		+ Initialize(): void
+		
+	}
+	DependenciesResolver ..> IEnemyBulletPool :> DI
+	DependenciesResolver ..> IPlayerBulletPool  :> DI
+	DependenciesResolver ..> IPlayerControllable :> DI
+	DependenciesResolver ..> Enemies :> DI
+	Enemies ..> IEnemyControllable :> DI
+}
+EntryPoint ..> Scenes.SampleShooting.DIContainer.DependenciesResolver
+
+namespace Scenes.SampleShooting.Character{
+	interface IBulletConstractable
+	{
+		+ Constructor(ObjectPool.ObjectPool playerBulletPool): void
+	}
+}
+Scenes.SampleShooting.DIContainer.DependenciesResolver ..> Scenes.SampleShooting.Character.IBulletConstractable :> DI
+
+@enduml
