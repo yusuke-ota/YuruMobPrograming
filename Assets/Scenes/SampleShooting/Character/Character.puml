@@ -1,0 +1,103 @@
+@startuml
+circle EntryPoint
+
+namespace Scenes.SampleShooting.DIContainer{
+	interface IEnemyBulletPool
+	{
+		+ Pool(): ObjectPool.ObjectPool 
+	}
+
+	interface IPlayerBulletPool
+	{
+		+ Pool(): ObjectPool.ObjectPool
+		+ BulletLimit(): uint
+	}
+
+	interface IPlayerControllable
+	{
+		+ Construct(IPlayerBulletPool playerBulletPool): void
+	}
+
+	interface IEnemyControllable
+	{
+		+ Construct(IEnemyBulletPool enemyBulletPool): void
+	}
+	
+	class Enemies
+	{
+        - _enemyBulletPool: IEnemyBulletPool
+
+        - Start(): void
+        + Construct(IEnemyBulletPool enemyBulletPool): void
+	}
+	class DependenciesResolver
+	
+	DependenciesResolver ..> IEnemyBulletPool :> DI
+	DependenciesResolver ..> IPlayerBulletPool :> DI
+	DependenciesResolver ..> IPlayerControllable :> DI
+	DependenciesResolver ..> Enemies :> DI
+	Enemies ..> IEnemyControllable :> DI
+}
+EntryPoint ..> Scenes.SampleShooting.DIContainer.DependenciesResolver
+
+namespace Scenes.SampleShooting.Character{
+	interface IBulletConstractable
+	{
+		+ Constructor(ObjectPool.ObjectPool playerBulletPool): void
+	}
+	
+	interface IDamageable
+	{
+		+ Damage(): void
+	}
+
+	class EnemyController
+	{
+		- dx: int
+		- dy: int
+		- moveSpan: uint
+		- shootPerSecond: uint
+		- _bulletPool: ObjectPool.ObjectPool
+		- _bulletTimer: float
+		- _moveTimer: float
+
+		- FixedUpdate(): void
+		- OnEnable(): void
+		- OnShoot(): void
+		- OnMove(): void
+		.. IDamageable ..
+		+ Damage(): void
+		.. IEnemyControllable ..
+		+ Construct(IEnemyBulletPool enemyBulletPool): void
+	}
+	
+	EnemyController ..|> IDamageable
+	EnemyController ..> IBulletConstractable :> OnShoot()で親の切り替え
+	
+	class PlayerController
+	{
+		- speedCoefficient:float = 0.2f
+		- life: uint
+		- _bulletLimit: uint
+		- _objectPool: ObjectPool.ObjectPool
+		- _shooterControls: SampleShooterControls
+
+		- Awake(): void
+		- FixedUpdate(): void
+		- OnEnable(): void
+		- OnDisable(): void
+		- OnShoot(): void
+		- OnMove(Vector2 moveDistance): void
+		.. IDamageable ..
+		+ Damage(): void
+		.. IPlayerControllable ..
+		+ Construct(IPlayerBulletPool playerBulletPool): void
+	}
+	PlayerController ..|> IDamageable
+	PlayerController ..> IBulletConstractable :> OnShoot()で親の切り替え
+}
+Scenes.SampleShooting.Character.EnemyController .up.|> Scenes.SampleShooting.DIContainer.IEnemyControllable
+Scenes.SampleShooting.Character.PlayerController .up.|> Scenes.SampleShooting.DIContainer.IPlayerControllable
+Scenes.SampleShooting.Character.EnemyController .up.> Scenes.SampleShooting.DIContainer.IEnemyBulletPool
+Scenes.SampleShooting.Character.PlayerController .up.> Scenes.SampleShooting.DIContainer.IPlayerBulletPool
+@enduml
