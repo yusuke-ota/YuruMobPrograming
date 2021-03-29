@@ -1,0 +1,159 @@
+@startuml
+circle EntryPoint
+
+namespace Scenes.SampleShooting.DIContainer{
+	interface IEnemyBulletPool
+	{
+		+ Pool(): ObjectPool.ObjectPool 
+	}
+
+	interface IPlayerBulletPool
+	{
+		+ Pool(): ObjectPool.ObjectPool
+		+ BulletLimit(): uint
+	}
+	
+	interface IPlayerControllable
+	{
+		+ Construct(IPlayerBulletPool playerBulletPool): void
+	}
+
+	interface IEnemyControllable
+	{
+		+ Construct(IEnemyBulletPool enemyBulletPool): void
+	}
+
+	class Enemies
+	{
+		- _enemyBulletPool: IEnemyBulletPool
+
+		- Start(): void
+		+ Construct(IEnemyBulletPool enemyBulletPool): void
+	}
+
+	class DependenciesResolver
+	{
+		- readonly _enemyBulletPool: IEnemyBulletPool
+		- readonly _enemies: Enemies
+		- readonly _playerBulletPool: IPlayerBulletPool
+		- readonly _playerControllable: IPlayerControllable
+
+		+ DependenciesResolver(IPlayerBulletPool playerBulletPool, IPlayerControllable playerControllable, IEnemyBulletPool enemyBulletPool, Enemies enemies): DependenciesResolver
+		+ Initialize(): void
+	}
+	DependenciesResolver ..> IEnemyBulletPool :> DI
+	DependenciesResolver ..> IPlayerBulletPool :> DI
+	DependenciesResolver ..> IPlayerControllable :> DI
+	DependenciesResolver ..> Enemies :> DI
+	Enemies ..> IEnemyControllable :> DI
+}
+EntryPoint .down.> Scenes.SampleShooting.DIContainer.DependenciesResolver
+
+namespace Scenes.SampleShooting.Character{
+	interface IBulletConstractable
+	{
+		+ Constructor(ObjectPool.ObjectPool playerBulletPool): void
+	}
+	
+	interface IDamageable
+	{
+		+ Damage(): void
+	}
+
+	class EnemyController
+	{
+		- dx: int
+		- dy: int
+		- moveSpan: uint
+		- shootPerSecond: uint
+		- _bulletPool: ObjectPool.ObjectPool
+		- _bulletTimer: float
+		- _moveTimer: float
+
+		- FixedUpdate(): void
+		- OnEnable(): void
+		- OnShoot(): void
+		- Move(): void
+		.. IDamageable ..
+		+ Damage(): void
+		.. IEnemyControllable ..
+		+ Construct(IEnemyBulletPool enemyBulletPool): void
+	}
+	
+	EnemyController ..|> IDamageable
+	EnemyController ..> IBulletConstractable :> BulletPoolを切り替え
+	
+	class PlayerController
+	{
+		- speedCoefficient:float = 0.2f
+		- life: uint
+		- _bulletLimit: uint
+		- _objectPool: ObjectPool.ObjectPool
+		- _shooterControls: SampleShooterControls
+
+		- Awake(): void
+		- FixedUpdate(): void
+		- OnEnable(): void
+		- OnDisable(): void
+		- OnShoot(): void
+		- OnMove(Vector2 moveDistance): void
+		.. IDamageable ..
+		+ Damage(): void
+		.. IPlayerControllable ..
+		+ Construct(IPlayerBulletPool playerBulletPool): void
+	}
+	PlayerController ..|> IDamageable
+	PlayerController ..> IBulletConstractable :> BulletPoolを切り替え
+}
+Scenes.SampleShooting.Character.EnemyController .up.|> Scenes.SampleShooting.DIContainer.IEnemyControllable
+Scenes.SampleShooting.Character.PlayerController .up.|> Scenes.SampleShooting.DIContainer.IPlayerControllable
+Scenes.SampleShooting.Character.EnemyController .up.> Scenes.SampleShooting.DIContainer.IEnemyBulletPool :> DI時にコンストラクタで使用
+Scenes.SampleShooting.Character.PlayerController .up.> Scenes.SampleShooting.DIContainer.IPlayerBulletPool :> DI時にコンストラクタで使用
+
+namespace Scenes.SampleShooting.Bullet{
+	class Bullet
+	{
+		- speed: float = 2f
+		- lifeTime: float = 10f
+		- _totalTime: float
+		- _bulletPool: ObjectPool.ObjectPool
+
+		- FixedUpdate(): void
+		- OnEnable(): void
+		
+		- OnTriggerEnter(Collider other): void
+		- ReturnToObjectPool(): void
+		.. IBulletConstractable ..
+		+ Constructor(ObjectPool.ObjectPool playerBulletPool): void
+	}
+
+	class EnemyBulletPool
+	{
+		- enemyBullet: GameObject
+		- enemyBulletPoolSize: uint = 40
+		- _enemyBulletPool: ObjectPool.ObjectPool
+
+		- Awake(): void
+		.. IEnemyBulletPool ..
+		+ Pool(): ObjectPool.ObjectPool
+	}
+
+	class PlayerBulletPool
+	{
+		- bullet: GameObject
+		- bulletLimit: uint = 20
+		- _playerBulletPool: ObjectPool.ObjectPool
+
+		- Awake(): void
+		.. IPlayerBulletPool ..
+		+ Pool(): ObjectPool.ObjectPool
+		+ BulletLimit(): uint
+	}
+}
+
+Scenes.SampleShooting.Bullet.PlayerBulletPool .up.|> Scenes.SampleShooting.DIContainer.IPlayerBulletPool
+Scenes.SampleShooting.Bullet.EnemyBulletPool .up.|> Scenes.SampleShooting.DIContainer.IEnemyBulletPool
+Scenes.SampleShooting.Bullet.Bullet .up.|> Scenes.SampleShooting.Character.IBulletConstractable
+Scenes.SampleShooting.Bullet.Bullet .up.> Scenes.SampleShooting.Character.IDamageable :> ダメージ判定
+
+@enduml
