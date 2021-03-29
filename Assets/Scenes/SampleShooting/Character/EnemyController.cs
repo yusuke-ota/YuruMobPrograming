@@ -1,5 +1,6 @@
 using Scenes.SampleShooting.DIContainer;
 using UnityEngine;
+using Utility;
 
 namespace Scenes.SampleShooting.Character
 {
@@ -21,7 +22,7 @@ namespace Scenes.SampleShooting.Character
         [SerializeField] [Tooltip("弾を発射する間隔(s)")]
         private uint shootPerSecond;
 
-        private ObjectPool.ObjectPool _bulletPool;
+        private ObjectPool _bulletPool;
 
         private float _bulletTimer;
 

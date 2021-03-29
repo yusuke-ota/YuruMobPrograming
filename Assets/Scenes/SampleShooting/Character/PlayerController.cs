@@ -1,5 +1,6 @@
 using Scenes.SampleShooting.DIContainer;
 using UnityEngine;
+using Utility;
 
 namespace Scenes.SampleShooting.Character
 {
@@ -14,7 +15,7 @@ namespace Scenes.SampleShooting.Character
         [SerializeField] private uint life;
 
         private uint _bulletLimit;
-        private ObjectPool.ObjectPool _objectPool;
+        private ObjectPool _objectPool;
         private SampleShooterControls _shooterControls;
 
         /// <summary>

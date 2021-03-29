@@ -1,0 +1,18 @@
+{
+    "name": "Scenes.SampleShooting.Bullet",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5960b72cabf4cd2499de10aaa8cb5cbb",
+        "GUID:e490562f0cd86f94d820ec5359fd4b2d",
+        "GUID:3323552842daa3d40ab5057e169940ec"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

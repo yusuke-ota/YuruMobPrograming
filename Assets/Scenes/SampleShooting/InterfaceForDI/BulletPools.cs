@@ -1,13 +1,15 @@
-﻿namespace Scenes.SampleShooting.DIContainer
+﻿using Utility;
+
+namespace Scenes.SampleShooting.DIContainer
 {
     public interface IEnemyBulletPool
     {
-        public ObjectPool.ObjectPool Pool();
+        public ObjectPool Pool();
     }
 
     public interface IPlayerBulletPool
     {
-        ObjectPool.ObjectPool Pool();
+        ObjectPool Pool();
         uint BulletLimit();
     }
 }

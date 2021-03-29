@@ -1,0 +1,19 @@
+{
+    "name": "Scenes.SampleShooting.Character",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3323552842daa3d40ab5057e169940ec",
+        "GUID:a1f1f8a390746fb41b7cbff498e561ba",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:5960b72cabf4cd2499de10aaa8cb5cbb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

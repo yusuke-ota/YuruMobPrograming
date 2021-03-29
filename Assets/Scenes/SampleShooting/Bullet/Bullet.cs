@@ -1,5 +1,6 @@
 using Scenes.SampleShooting.Character;
 using UnityEngine;
+using Utility;
 
 namespace Scenes.SampleShooting.Bullet
 {
@@ -38,9 +39,9 @@ namespace Scenes.SampleShooting.Bullet
 
         #region IBulletConstractable実装部分
 
-        private ObjectPool.ObjectPool _bulletPool;
+        private ObjectPool _bulletPool;
 
-        public void Constructor(ObjectPool.ObjectPool playerBulletPool)
+        public void Constructor(ObjectPool playerBulletPool)
         {
             _bulletPool = playerBulletPool;
         }

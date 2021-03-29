@@ -1,0 +1,20 @@
+{
+    "name": "Scenes.SampleShooting.DIContainer",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3323552842daa3d40ab5057e169940ec",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:e490562f0cd86f94d820ec5359fd4b2d",
+        "GUID:ba76a1eaac2792645a4a0714773a59f7",
+        "GUID:5960b72cabf4cd2499de10aaa8cb5cbb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

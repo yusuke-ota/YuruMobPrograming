@@ -1,0 +1,16 @@
+{
+    "name": "Scenes.SampleShooting.InterfaceForDI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3323552842daa3d40ab5057e169940ec"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

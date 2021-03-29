@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ObjectPool
+namespace Utility
 {
     public class ObjectPool
     {
