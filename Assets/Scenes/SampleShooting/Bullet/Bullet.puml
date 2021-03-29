@@ -1,0 +1,76 @@
+@startuml
+circle EntryPoint
+namespace Scenes.SampleShooting.DIContainer{
+	interface IEnemyBulletPool
+	{
+		+ Pool(): ObjectPool.ObjectPool 
+	}
+
+	interface IPlayerBulletPool
+	{
+		+ Pool(): ObjectPool.ObjectPool
+		+ BulletLimit(): uint
+	}
+	
+	class DependenciesResolver
+	
+	DependenciesResolver ..> IEnemyBulletPool
+	DependenciesResolver ..> IPlayerBulletPool
+}
+EntryPoint ..> Scenes.SampleShooting.DIContainer.DependenciesResolver
+
+namespace Scenes.SampleShooting.Character{
+	interface IDamageable
+	{
+		+ Damage(): void
+	}
+	
+	interface IBulletConstractable
+	{
+		+ Constructor(ObjectPool.ObjectPool playerBulletPool): void
+	}
+}
+Scenes.SampleShooting.DIContainer.DependenciesResolver ..> Scenes.SampleShooting.Character.IBulletConstractable
+
+namespace Scenes.SampleShooting.Bullet{
+	class Bullet
+	{
+		- speed: float = 2f
+		- lifeTime: float = 10f
+		- _totalTime: float
+		- _bulletPool: ObjectPool.ObjectPool
+
+		- FixedUpdate(): void
+		- OnEnable(): void
+		- OnTriggerEnter(Collider other): void
+		- ReturnToObjectPool(): void
+		+ Constructor(ObjectPool.ObjectPool playerBulletPool): void
+	}
+
+	class EnemyBulletPool
+	{
+		- enemyBullet: GameObject
+		- enemyBulletPoolSize: uint = 40
+		- _enemyBulletPool: ObjectPool.ObjectPool
+
+		- Awake(): void
+		+ Pool(): ObjectPool.ObjectPool
+	}
+
+	class PlayerBulletPool
+	{
+		- bullet: GameObject
+		- bulletLimit: uint = 20
+		- _playerBulletPool: ObjectPool.ObjectPool
+
+		- Awake(): void
+		+ Pool(): ObjectPool.ObjectPool
+		+ BulletLimit(): uint
+	}
+}
+
+Scenes.SampleShooting.Bullet.Bullet .up.> Scenes.SampleShooting.Character.IDamageable
+Scenes.SampleShooting.Bullet.Bullet .up.|> Scenes.SampleShooting.Character.IBulletConstractable
+Scenes.SampleShooting.Bullet.PlayerBulletPool .up.|> Scenes.SampleShooting.DIContainer.IPlayerBulletPool
+Scenes.SampleShooting.Bullet.EnemyBulletPool .up.|> Scenes.SampleShooting.DIContainer.IEnemyBulletPool
+@enduml
