@@ -12,7 +12,7 @@ namespace Scenes.SampleShooting.DIContainer
             // DIコンテナにclass, interfaceを登録する。
 
             // player
-            builder.RegisterComponentInHierarchy<PlayerBalletPool>().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<PlayerBulletPool>().AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<PlayerController>().AsImplementedInterfaces();
 
             // enemy

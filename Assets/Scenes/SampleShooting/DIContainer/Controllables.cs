@@ -2,7 +2,7 @@
 {
     public interface IPlayerControllable
     {
-        public void Construct(IPlayerBalletPool playerBalletPool);
+        public void Construct(IPlayerBulletPool playerBulletPool);
     }
 
     public interface IEnemyControllable

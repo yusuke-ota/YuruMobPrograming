@@ -88,11 +88,11 @@ namespace Scenes.SampleShooting.Character
         /// <summary>
         ///     Dependence Resolver.csからDIされる受け口。
         /// </summary>
-        /// <param name="playerBalletPool">プレイヤー用のBullet Pool</param>
-        public void Construct(IPlayerBalletPool playerBalletPool)
+        /// <param name="playerBulletPool">プレイヤー用のBullet Pool</param>
+        public void Construct(IPlayerBulletPool playerBulletPool)
         {
-            _objectPool = playerBalletPool.Pool();
-            _bulletLimit = playerBalletPool.BulletLimit();
+            _objectPool = playerBulletPool.Pool();
+            _bulletLimit = playerBulletPool.BulletLimit();
         }
 
         #endregion

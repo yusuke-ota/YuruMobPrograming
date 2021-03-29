@@ -6,14 +6,14 @@ namespace Scenes.SampleShooting.DIContainer
     {
         private readonly IEnemyBulletPool _enemyBulletPool;
         private readonly Enemies _enemyControllables;
-        private readonly IPlayerBalletPool _playerBalletPool;
+        private readonly IPlayerBulletPool _playerBulletPool;
         private readonly IPlayerControllable _playerControllable;
 
-        public DependenciesResolver(IPlayerBalletPool playerBalletPool, IPlayerControllable playerControllable,
+        public DependenciesResolver(IPlayerBulletPool playerBulletPool, IPlayerControllable playerControllable,
             IEnemyBulletPool enemyBulletPool, Enemies enemyControllableControllables)
         {
             // playerの設定
-            _playerBalletPool = playerBalletPool;
+            _playerBulletPool = playerBulletPool;
             _playerControllable = playerControllable;
 
             // enemyの設定
@@ -23,7 +23,7 @@ namespace Scenes.SampleShooting.DIContainer
 
         public void Initialize()
         {
-            _playerControllable.Construct(_playerBalletPool);
+            _playerControllable.Construct(_playerBulletPool);
             _enemyControllables.Construct(_enemyBulletPool);
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Scenes.SampleShooting.Bullet
 {
-    public class PlayerBalletPool : MonoBehaviour, IPlayerBalletPool
+    public class PlayerBulletPool : MonoBehaviour, IPlayerBulletPool
     {
         [SerializeField] private GameObject bullet;
         [SerializeField] private uint bulletLimit = 20;

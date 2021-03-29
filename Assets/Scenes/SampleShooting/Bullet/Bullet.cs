@@ -40,9 +40,9 @@ namespace Scenes.SampleShooting.Bullet
 
         private ObjectPool.ObjectPool _bulletPool;
 
-        public void Constructor(ObjectPool.ObjectPool playerBalletPool)
+        public void Constructor(ObjectPool.ObjectPool playerBulletPool)
         {
-            _bulletPool = playerBalletPool;
+            _bulletPool = playerBulletPool;
         }
 
         #endregion

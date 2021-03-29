@@ -29,7 +29,7 @@ namespace Scenes.SampleShooting.Character
 
         private void FixedUpdate()
         {
-            Move();
+            OnMove();
 
             _bulletTimer += Time.deltaTime;
             if (_bulletTimer >= shootPerSecond)
@@ -54,7 +54,7 @@ namespace Scenes.SampleShooting.Character
             bullet.GetComponent<IBulletConstractable>()?.Constructor(_bulletPool);
         }
 
-        private void Move()
+        private void OnMove()
         {
             _moveTimer += Time.deltaTime;
             if (_moveTimer >= moveSpan)

@@ -2,6 +2,6 @@
 {
     public interface IBulletConstractable
     {
-        public void Constructor(ObjectPool.ObjectPool playerBalletPool);
+        public void Constructor(ObjectPool.ObjectPool playerBulletPool);
     }
 }

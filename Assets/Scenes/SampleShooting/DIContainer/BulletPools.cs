@@ -5,7 +5,7 @@
         public ObjectPool.ObjectPool Pool();
     }
 
-    public interface IPlayerBalletPool
+    public interface IPlayerBulletPool
     {
         ObjectPool.ObjectPool Pool();
         uint BulletLimit();
