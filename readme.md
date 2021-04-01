@@ -32,4 +32,8 @@ Unity初心者向けに行うモブプログラミングのテンプレートプ
 
 ## UtilityCode
 
-- ObjectPool: [./Assets/ObjectPool/ObjectPool.cs](./Assets/ObjectPool/ObjectPool.cs)
+- ObjectPool: [./Assets/ObjectPool/ObjectPool.cs](./Assets/Utility/ObjectPool.cs)
+
+## サンプルシーン
+
+- [DIContainerを使った簡易シューティングサンプル](./Assets/Scenes/SampleShooting/SampleShooting.md)
