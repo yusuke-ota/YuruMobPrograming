@@ -67,7 +67,7 @@ namespace Scenes.SampleShooting.Character
 
             transform.position += new Vector3(dx * Time.deltaTime, 0, dy * Time.deltaTime);
         }
-        
+
         #region IDamageable実装部分
 
         public void Damage()
