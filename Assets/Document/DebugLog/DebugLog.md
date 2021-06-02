@@ -44,7 +44,7 @@ public class CheckRun: MonoBehaviour{
 #### ラッピングする
 
 参考: [Qiita 【Unity】 UnityEditorの時のみDebug.Logを出す方法](https://qiita.com/Gok/items/fcfc26fa84df42c9f65d)  
-元は`#if ~ #endif`を使っていましたが、もっといい方法があるということで参考人させていただきました。
+元は`#if ~ #endif`を使っていましたが、もっといい方法があるということで参考にさせていただきました。
 
 ```diff
 public class CheckRun: MonoBehaviour{
