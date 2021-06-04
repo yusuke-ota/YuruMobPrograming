@@ -11,7 +11,7 @@ namespace Document.WhatIsEvent
         // そういった場面で、DelegateからMoveCubeが呼ばれ続けるのは良くない(Null参照エラーが流れ続ける)
         // なので、OnEnableで関数を追加、OnDisableで関数を削除する必要がある。
         private void OnEnable() => myDelegate.MoveDelegate += MoveCube;
-        private void OnDisable() => myDelegate.MoveDelegate += MoveCube;
+        private void OnDisable() => myDelegate.MoveDelegate -= MoveCube;
 
         // このメソッドはDelegate.cs内の Delegateクラスのupdateで呼ばれる
         private void MoveCube(Vector3 moveAmount)
